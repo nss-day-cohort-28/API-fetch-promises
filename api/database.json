@@ -1,0 +1,46 @@
+{
+  "food": [
+    {
+      "id": 1,
+      "name": "Linguine",
+      "type": "pasta",
+      "ethnicity": "italian",
+      "barcode": "0092825104964"
+    },
+    {
+      "name": "Red curry",
+      "type": "curry",
+      "ethnicity": "thai",
+      "id": 2,
+      "barcode": "00070650800091"
+    },
+    {
+      "id": 3,
+      "name": "Green curry",
+      "type": "curry",
+      "ethnicity": "thai",
+      "barcode": "0041224872400"
+    },
+    {
+      "id": 4,
+      "name": "Ravioli Funghi",
+      "type": "pasta",
+      "ethnicity": "italian",
+      "barcode": "0008005158306"
+    },
+    {
+      "id": 5,
+      "name": "Tuscan Soup",
+      "type": "vegetarian",
+      "ethnicity": "italian",
+      "barcode": "5000169116562"
+    },
+    {
+      "name": "Doritos",
+      "type": "junk",
+      "ethnicity": "'murcan",
+      "id": 6,
+      "barcode": "0028400090896"
+    }
+  ]
+}
