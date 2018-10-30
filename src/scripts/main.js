@@ -115,7 +115,14 @@ function getFood() {
 }
 // getFood()
 
+// *****************************************************************************************
+// Extra example using user input and showing how to handle needing original data from API before making second call to API
+// 1) Handles keyword search from user, like "batman"
+// 2) API returns basic clientInformation, but we want more clientInformation, like the cast list
+// 3) Loops through orignal results to grab a movie's id, then pings API again for detailed results
+// 4) Appends details for each movie to the DOM
 
+// Original call to OMDB
 function getMovies(keyword) {
   return fetch(`http://www.omdbapi.com/?apikey=b3bd2b6a&s=${keyword}&type=movie`)
   .then( movies => movies.json())
@@ -135,11 +142,13 @@ function getMovies(keyword) {
   })
 }
 
+// Secondary call to OMDB for movie details
 function getMovieDetails(id) {
   return fetch(`http://www.omdbapi.com/?apikey=b3bd2b6a&i=${id}`)
   .then(movie => movie.json())
 }
 
+// Add final results to DOM
 function displayMovies(movies) {
   let movieList = document.querySelector("#movielist")
   let fragment = document.createDocumentFragment()
@@ -170,6 +179,7 @@ function displayMovies(movies) {
   movieList.appendChild(fragment)
 }
 
+// Handle the user's keyword search and append results to the DOM
 document.querySelector("#movieBtn").addEventListener("click", () => {
   getMovies(document.querySelector("#movieSearch").value)
   .then( movies => displayMovies(movies))
