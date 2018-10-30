@@ -1,4 +1,4 @@
-console.log("howdy")
+// console.log("howdy")
 
 // UI element creation functions
 // let elementFactory = (el, content, {id, clazz}, ...children) => {
@@ -74,7 +74,6 @@ let apiPromises = []
 // get the initial data from my API
 
 function getFood() {
-
   fetch("http://localhost:8088/food/")
   .then((foodDataJson) => foodDataJson.json()) //convert json to js
   .then((foodData) => { // loop over the converted js array of objects to query 3rd-party API
@@ -118,37 +117,39 @@ function getFood() {
 // *****************************************************************************************
 // Extra example using user input and showing how to handle needing original data from API before making second call to API
 // 1) Handles keyword search from user, like "batman"
-// 2) API returns basic clientInformation, but we want more clientInformation, like the cast list
+// 2) API returns basic movie info, but we want more movie info, like the cast list
 // 3) Loops through orignal results to grab a movie's id, then pings API again for detailed results
 // 4) Appends details for each movie to the DOM
+// *****************************************************************************************
 
-// Original call to OMDB
+// 2) Original call to OMDB
 function getMovies(keyword) {
   return fetch(`http://www.omdbapi.com/?apikey=b3bd2b6a&s=${keyword}&type=movie`)
-  .then( movies => movies.json())
-  .then( movies => {
-    console.log(movies)
-    moviePromises = []
-    movies.Search.forEach( movie => {
-      moviePromises.push(
-        getMovieDetails(movie.imdbID)
-      )
+    .then(movies => movies.json())
+    .then(movies => {
+      console.log(movies)
+      moviePromises = []
+      movies.Search.forEach(movie => {
+        moviePromises.push(
+          getMovieDetails(movie.imdbID)
+        )
+      })
+      return Promise.all(moviePromises)
     })
-    return Promise.all(moviePromises)
-  })
-  .then( allMoviesDeets => {
-    console.log("all movies deets", allMoviesDeets);
-    return allMoviesDeets
-  })
+    .then(allMoviesDeets => {
+      console.log("all movies deets", allMoviesDeets);
+      return allMoviesDeets
+    })
+    .catch( error => console.log("Sumthin wint rong", error))
 }
 
-// Secondary call to OMDB for movie details
+// 3) Secondary call to OMDB for movie details
 function getMovieDetails(id) {
   return fetch(`http://www.omdbapi.com/?apikey=b3bd2b6a&i=${id}`)
-  .then(movie => movie.json())
+    .then(movie => movie.json())
 }
 
-// Add final results to DOM
+// 4) Add final results to DOM
 function displayMovies(movies) {
   let movieList = document.querySelector("#movielist")
   let fragment = document.createDocumentFragment()
@@ -179,11 +180,13 @@ function displayMovies(movies) {
   movieList.appendChild(fragment)
 }
 
-// Handle the user's keyword search and append results to the DOM
+
+// 1) Handle the user's keyword search and append results to the DOM
 document.querySelector("#movieBtn").addEventListener("click", () => {
   getMovies(document.querySelector("#movieSearch").value)
-  .then( movies => displayMovies(movies))
+    .then(movies => displayMovies(movies))
 })
+
 
 // STUDENT CHALLENGE
 // Handling adding a movie to movies collection
@@ -195,29 +198,27 @@ document.querySelector("#movieBtn").addEventListener("click", () => {
 // 6) Display your saved movies in the DOM
 
 // With that in mind, an object we might POST to our db would look like this:
-// newMovie = {
-//   watched: false,
-//   own: true, // is this necessary if we also have the 'format' property? Nope. How? Well...
-//   format: "blu-ray", // if this was null, we could use that state to tell whether we own the movie or not.
-//   rating: 5,
-//   movie: "tt0372784" //And here's where we would store the data we need to display the movie later. One fetch to the API would give us everything else we need, without duplicating data
-// }
+newMovie = {
+  watched: false,
+  own: true, // is this necessary if we also have the 'format' property? Nope. How? Well...
+  format: "blu-ray", // if this was null, we could use that state to tell whether we own the movie or not.
+  rating: 5,
+  movie: "tt0372784" //And here's where we would store the data we need to display the movie later. One fetch to the API would give us everything else we need, without duplicating data
+}
 
-// +++++++++++++++++
 // PATCH vs PUT
-// So, say we POSTed this to our db at some point, but wanted to update the 'watched' prop from false to true.
+// So, say we POSTed this to our db at some point, but wanted to update the 'rating' prop from 5 to 8.
 // With a `PUT`, we would have to add the whole object to the request body:
-// (Note that you don't include the ID!)
+// (Note that you don't include the resource's ID!)
 
 // let updatedMovie = {
-//   watched: true, // the value we're changing
 //   format: "blu-ray",
-//   rating: 5,
+//   rating: 8,
 //   movie: "tt0372784"
 // }
 
-// With a `PATCH` we would only send the updated key/value in the request body:
-// let updatedMovie = { watched: true }
+// With a `PATCH` we would only send the updated key/value(s) in the request body:
+// let updatedMovie = { rating: 8 }
 
 // Then the fetch looks identical, other than the 'method' property in the options object
 // fetch("url", { // Replace "url" with your API's URL/<the ID of the movie>
