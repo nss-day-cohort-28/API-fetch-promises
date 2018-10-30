@@ -124,7 +124,7 @@ function getFood() {
 
 // 2) Original call to OMDB
 function getMovies(keyword) {
-  return fetch(`http://www.omdbapi.com/?apikey=b3bd2b6a&s=${keyword}&type=movie`)
+  return fetch(`http://www.omdbapi.com/?apikey=YOUR-API-KEY&s=${keyword}&type=movie`)
     .then(movies => movies.json())
     .then(movies => {
       console.log(movies)
