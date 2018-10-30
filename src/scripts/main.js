@@ -184,3 +184,46 @@ document.querySelector("#movieBtn").addEventListener("click", () => {
   getMovies(document.querySelector("#movieSearch").value)
   .then( movies => displayMovies(movies))
 })
+
+// STUDENT CHALLENGE
+// Handling adding a movie to movies collection
+// 1) Add a btn for each movie
+// 2) Give each btn the imdbId of the movie
+// 3) When btn is clicked, grab its id and add it to db
+// 4) Why not add other data from movie results? -- single source of truth!
+// 5) We *can* add other data, like whether we have watched it or not, or how many times we've watched, whether we own the movie, etc. But data about the movie itself lives on the API servers. Duplicating data is to be avoided
+// 6) Display your saved movies in the DOM
+
+// With that in mind, an object we might POST to our db would look like this:
+// newMovie = {
+//   watched: false,
+//   own: true, // is this necessary if we also have the 'format' property? Nope. How? Well...
+//   format: "blu-ray", // if this was null, we could use that state to tell whether we own the movie or not.
+//   rating: 5,
+//   movie: "tt0372784" //And here's where we would store the data we need to display the movie later. One fetch to the API would give us everything else we need, without duplicating data
+// }
+
+// +++++++++++++++++
+// PATCH vs PUT
+// So, say we POSTed this to our db at some point, but wanted to update the 'watched' prop from false to true.
+// With a `PUT`, we would have to add the whole object to the request body:
+// (Note that you don't include the ID!)
+
+// let updatedMovie = {
+//   watched: true, // the value we're changing
+//   format: "blu-ray",
+//   rating: 5,
+//   movie: "tt0372784"
+// }
+
+// With a `PATCH` we would only send the updated key/value in the request body:
+// let updatedMovie = { watched: true }
+
+// Then the fetch looks identical, other than the 'method' property in the options object
+// fetch("url", { // Replace "url" with your API's URL/<the ID of the movie>
+//   method: "PUT", //or "PATCH"
+//   headers: {
+//     "Content-Type": "application/json"
+//   },
+//   body: JSON.stringify(updatedMovie)
+// })
