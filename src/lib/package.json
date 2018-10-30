@@ -1,0 +1,19 @@
+{
+  "name": "lib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-bg-shell": "^2.3.3",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-eslint": "^21.0.0",
+    "grunt-http-server": "^2.1.0",
+    "load-grunt-config": "^0.19.2"
+  }
+}
